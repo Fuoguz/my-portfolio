@@ -158,6 +158,7 @@
           rgba(255, 255, 255, 0.08),
           rgba(187, 167, 255, 0.22)
         );
+        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
         -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
         -webkit-mask-composite: xor;
         mask-composite: exclude;
@@ -266,9 +267,6 @@
         grid-template-columns: 1.45fr 0.55fr;
         gap: 22px;
         align-items: stretch;
-      }
-      .hero-card {
-        /* 具体样式由 .glass 提供（这里保留类名以便结构语义清晰） */
       }
       .hero-main {
         position: relative;
@@ -640,6 +638,18 @@
       }
 
       /* =========================================================
+        访客留言（Giscus）
+      ========================================================= */
+      .guestbook-wrap {
+        padding: 14px;
+      }
+      .guestbook-tip {
+        margin: 0 0 10px;
+        color: rgba(255, 255, 255, 0.64);
+        font-size: 13px;
+      }
+
+      /* =========================================================
         页脚
       ========================================================= */
       footer {
@@ -954,6 +964,44 @@
               <p class="lab-text">预留：写下 3 个常用工具 + 为什么好用（效率 / 质量 / 心流）。</p>
               <div class="lab-hint"><i aria-hidden="true"></i><span>可放：工具链接 / 个人用法</span></div>
             </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- 访客留言（Giscus） -->
+      <section id="guestbook">
+        <div class="container">
+          <div class="section-head reveal">
+            <div>
+              <h2>💬 访客留言</h2>
+              <p class="section-sub">欢迎留下你的想法与建议。</p>
+            </div>
+          </div>
+
+          <div class="panel glass reveal guestbook-wrap">
+            <div class="giscus"></div>
+
+            <!--
+              Giscus 配置说明：
+              1) data-repo 已设置为 Fuoguz/my-portfolio
+              2) 请把 data-repo-id / data-category-id 替换成你在 giscus.app 生成的真实值
+            -->
+            <script
+              src="https://giscus.app/client.js"
+              data-repo="Fuoguz/my-portfolio"
+              data-repo-id="R_kgDORxlnhA"
+              data-category="General"
+              data-category-id="DIC_kwDORxlnhM4C5V0I"
+              data-mapping="pathname"
+              data-strict="0"
+              data-reactions-enabled="1"
+              data-emit-metadata="0"
+              data-input-position="top"
+              data-theme="transparent_dark"
+              data-lang="zh-CN"
+              crossorigin="anonymous"
+              async
+            ></script>
           </div>
         </div>
       </section>
