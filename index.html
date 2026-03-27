@@ -742,6 +742,126 @@
       }
 
       /* =========================================================
+        悬浮音乐播放器（极简玻璃按钮）
+      ========================================================= */
+      .music-fab {
+        position: fixed;
+        left: 22px;
+        bottom: 22px;
+        z-index: 80;
+      }
+      .music-btn {
+        position: relative;
+        width: 58px;
+        height: 58px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.24);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(66, 247, 230, 0.08);
+        color: rgba(255, 255, 255, 0.9);
+        cursor: pointer;
+        display: grid;
+        place-items: center;
+        transition: transform 220ms cubic-bezier(0.18, 1.25, 0.26, 1), box-shadow 220ms ease,
+          border-color 220ms ease;
+      }
+      .music-btn:hover {
+        transform: translateY(-2px) scale(1.03);
+        border-color: rgba(187, 167, 255, 0.36);
+        box-shadow: 0 20px 44px rgba(0, 0, 0, 0.3), 0 0 28px rgba(66, 247, 230, 0.16);
+      }
+
+      /* hover 小提示 */
+      .music-btn::after {
+        content: attr(data-tip);
+        position: absolute;
+        left: 68px;
+        top: 50%;
+        transform: translateY(-50%) translateX(-4px);
+        white-space: nowrap;
+        font-size: 12px;
+        font-weight: 650;
+        letter-spacing: 0.2px;
+        color: rgba(255, 255, 255, 0.88);
+        padding: 8px 10px;
+        border-radius: 10px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(9, 14, 25, 0.72);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 180ms ease, transform 180ms ease;
+      }
+      .music-btn:hover::after {
+        opacity: 1;
+        transform: translateY(-50%) translateX(0);
+      }
+
+      /* 播放/暂停图标平滑切换 */
+      .music-icon {
+        position: relative;
+        width: 20px;
+        height: 20px;
+      }
+      .music-icon .play,
+      .music-icon .pause {
+        position: absolute;
+        inset: 0;
+        transition: opacity 200ms ease, transform 240ms ease;
+      }
+      .music-icon .play {
+        opacity: 1;
+        transform: scale(1);
+      }
+      .music-icon .pause {
+        opacity: 0;
+        transform: scale(0.86);
+      }
+      .music-btn.playing .music-icon .play {
+        opacity: 0;
+        transform: scale(0.82);
+      }
+      .music-btn.playing .music-icon .pause {
+        opacity: 1;
+        transform: scale(1);
+      }
+
+      /* 播放时脉冲光圈 */
+      .music-btn .pulse {
+        position: absolute;
+        inset: -7px;
+        border-radius: 999px;
+        border: 1px solid rgba(66, 247, 230, 0.28);
+        opacity: 0;
+        transform: scale(0.94);
+        pointer-events: none;
+      }
+      .music-btn.playing .pulse {
+        animation: musicPulse 2.1s ease-out infinite;
+        opacity: 1;
+      }
+      @keyframes musicPulse {
+        0% {
+          transform: scale(0.94);
+          opacity: 0.42;
+          border-color: rgba(66, 247, 230, 0.28);
+        }
+        65% {
+          transform: scale(1.2);
+          opacity: 0.1;
+          border-color: rgba(187, 167, 255, 0.24);
+        }
+        100% {
+          transform: scale(1.28);
+          opacity: 0;
+          border-color: rgba(66, 247, 230, 0.12);
+        }
+      }
+
+      /* =========================================================
         滚动进入视口淡入动画（统一控制）
       ========================================================= */
       .reveal {
@@ -769,6 +889,11 @@
         }
         .cursor {
           animation: none;
+        }
+        .music-btn .pulse,
+        .music-btn.playing .pulse {
+          animation: none;
+          opacity: 0;
         }
       }
 
@@ -810,6 +935,10 @@
         }
         .panel {
           padding: 16px;
+        }
+        .music-fab {
+          left: 14px;
+          bottom: 14px;
         }
       }
     </style>
@@ -1109,6 +1238,26 @@
       </div>
     </footer>
 
+    <!-- 悬浮音乐播放器 -->
+    <div class="music-fab" aria-label="悬浮音乐播放器">
+      <button class="music-btn" id="musicBtn" type="button" data-tip="Listen to Lofi" aria-pressed="false">
+        <span class="pulse" aria-hidden="true"></span>
+        <span class="music-icon" aria-hidden="true">
+          <svg class="play" viewBox="0 0 24 24" fill="none">
+            <path d="M8 6.5v11l9-5.5z" fill="currentColor" />
+          </svg>
+          <svg class="pause" viewBox="0 0 24 24" fill="none">
+            <rect x="7" y="6" width="3.5" height="12" rx="1" fill="currentColor" />
+            <rect x="13.5" y="6" width="3.5" height="12" rx="1" fill="currentColor" />
+          </svg>
+        </span>
+      </button>
+      <audio id="bgmPlayer" preload="none" loop>
+        <!-- 可在这里替换音乐链接 -->
+        <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg" />
+      </audio>
+    </div>
+
     <script>
       // =========================================================
       // 1) Hero 打字机动画（循环展示）
@@ -1227,6 +1376,36 @@
       (function initYear() {
         const y = document.getElementById("year");
         if (y) y.textContent = String(new Date().getFullYear());
+      })();
+
+      // =========================================================
+      // 5) 悬浮音乐播放器（点击后播放，默认不自动播放）
+      // =========================================================
+      (function initMusicPlayer() {
+        const btn = document.getElementById("musicBtn");
+        const audio = document.getElementById("bgmPlayer");
+        if (!btn || !audio) return;
+
+        // 默认 30% 音量，作为背景音
+        audio.volume = 0.3;
+
+        btn.addEventListener("click", async () => {
+          if (audio.paused) {
+            try {
+              await audio.play();
+              btn.classList.add("playing");
+              btn.setAttribute("aria-pressed", "true");
+            } catch {
+              // 用户未授权播放时，保持静止状态
+              btn.classList.remove("playing");
+              btn.setAttribute("aria-pressed", "false");
+            }
+          } else {
+            audio.pause();
+            btn.classList.remove("playing");
+            btn.setAttribute("aria-pressed", "false");
+          }
+        });
       })();
     </script>
   </body>
