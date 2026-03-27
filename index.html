@@ -597,6 +597,30 @@
         padding: 16px;
         border-radius: var(--radius-lg);
       }
+      /* 灵感实验室首卡：项目入口强调态（保持玻璃风格） */
+      .lab-card.featured {
+        position: relative;
+        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(66, 247, 230, 0.14),
+          0 0 24px rgba(66, 247, 230, 0.1);
+        animation: labBreath 3.6s ease-in-out infinite;
+        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), box-shadow 260ms ease;
+      }
+      .lab-card.featured:hover {
+        transform: translateY(-6px) scale(1.01);
+        box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(187, 167, 255, 0.28),
+          0 0 34px rgba(187, 167, 255, 0.2), 0 0 30px rgba(66, 247, 230, 0.18);
+      }
+      @keyframes labBreath {
+        0%,
+        100% {
+          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(66, 247, 230, 0.14),
+            0 0 22px rgba(66, 247, 230, 0.1);
+        }
+        50% {
+          box-shadow: 0 18px 42px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(187, 167, 255, 0.22),
+            0 0 30px rgba(187, 167, 255, 0.16), 0 0 24px rgba(66, 247, 230, 0.14);
+        }
+      }
       .lab-meta {
         display: inline-flex;
         gap: 10px;
@@ -635,6 +659,44 @@
         border-radius: 999px;
         background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
         box-shadow: 0 0 24px rgba(66, 247, 230, 0.18);
+      }
+      .lab-tags {
+        margin-top: 12px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+      .lab-tag {
+        padding: 6px 10px;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.06);
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 12px;
+        font-weight: 650;
+        letter-spacing: 0.2px;
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+      }
+      .lab-link-btn {
+        margin-top: 14px;
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 12px;
+        border-radius: 12px;
+        border: 1px solid rgba(66, 247, 230, 0.28);
+        background: linear-gradient(135deg, rgba(66, 247, 230, 0.12), rgba(187, 167, 255, 0.1));
+        color: rgba(255, 255, 255, 0.92);
+        font-size: 13px;
+        font-weight: 750;
+        letter-spacing: 0.2px;
+        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
+      }
+      .lab-link-btn:hover {
+        transform: translateY(-1px);
+        border-color: rgba(187, 167, 255, 0.36);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2), 0 0 24px rgba(66, 247, 230, 0.14);
       }
 
       /* =========================================================
@@ -944,11 +1006,25 @@
           </div>
 
           <div class="lab-grid">
-            <article class="lab-card glass reveal" aria-label="灵感实验室卡片 1">
-              <div class="lab-meta"><b>01</b><span>随笔位 · 待填充</span></div>
-              <div class="lab-title">把一个点子做成可验证的页面</div>
-              <p class="lab-text">预留：一句话描述你的实验内容（例如：用 AI 工具快速生成结构，再手动打磨体验与文案）。</p>
-              <div class="lab-hint"><i aria-hidden="true"></i><span>可放：日期 / 关键词 / 链接</span></div>
+            <article class="lab-card glass reveal featured" aria-label="AI 智能课表可视化工具入口">
+              <div class="lab-meta"><b>01</b><span>项目入口 · 已上线</span></div>
+              <div class="lab-title">AI 智能课表可视化工具</div>
+              <p class="lab-text">
+                针对大学生设计的极简周视图课表，支持本地存储与 Canvas 高清导出。Vibe Coding 实战项目 No.2。
+              </p>
+              <div class="lab-tags" aria-label="项目标签">
+                <span class="lab-tag">原生 JS</span>
+                <span class="lab-tag">Canvas 渲染</span>
+                <span class="lab-tag">工具类</span>
+              </div>
+              <a
+                class="lab-link-btn"
+                href="https://fuoguz.github.io/my-timetable/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="新标签页打开 AI 智能课表工具"
+                >立即体验 ↗</a
+              >
             </article>
 
             <article class="lab-card glass reveal" aria-label="灵感实验室卡片 2">
