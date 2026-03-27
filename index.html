@@ -7,1406 +7,354 @@
       name="description"
       content="张少毅（Shaoyi Zhang）｜上海政法学院｜网络与新媒体｜个人作品集"
     />
-    <title>张少毅 Shaoyi Zhang｜Portfolio</title>
+    <title>张少毅 Shaoyi Zhang｜田园宁静个人空间</title>
 
-    <!-- 字体：标题更“科技”，正文更克制 -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700&family=Oxanium:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=ZCOOL+XiaoWei&family=ZCOOL+KuaiLe&family=Ma+Shan+Zheng&display=swap"
       rel="stylesheet"
     />
 
     <style>
       /* =========================================================
-        主题变量（深蓝灰底 + 白字 + 青/淡紫强调）
+        田园风变量 (星露谷/MC 配色)
       ========================================================= */
       :root {
-        --bg: #0b1220; /* 深蓝灰 */
-        --panel: rgba(255, 255, 255, 0.06);
-        --panel-2: rgba(255, 255, 255, 0.085);
-        --stroke: rgba(255, 255, 255, 0.12);
-        --text: rgba(255, 255, 255, 0.92);
-        --muted: rgba(255, 255, 255, 0.68);
-        --faint: rgba(255, 255, 255, 0.5);
-
-        --accent: #42f7e6; /* 青色 */
-        --accent2: #bba7ff; /* 淡紫 */
-        --accent3: #7cd4ff; /* 偏冷的亮蓝（用于细节） */
-
-        --shadow: 0 20px 60px rgba(0, 0, 0, 0.45);
-        --radius: 18px;
-        --radius-lg: 22px;
-
-        --font-display: "Oxanium", system-ui, -apple-system, Segoe UI, sans-serif;
-        --font-body: "Manrope", system-ui, -apple-system, Segoe UI, sans-serif;
-
-        --container: 1100px;
-        --nav-h: 72px;
-
-        /* Glassmorphism 参数（高模糊、低不透明度、细强调描边） */
-        --glass-bg: rgba(255, 255, 255, 0.05);
-        --glass-bg-2: rgba(255, 255, 255, 0.07);
-        --glass-stroke: rgba(255, 255, 255, 0.14);
-        --glass-blur: 20px;
-        --glass-shadow: 0 22px 70px rgba(0, 0, 0, 0.42);
+        --bg: #f0f7da; /* 奶油草绿色 */
+        --card-bg: #fff9e6; /* 羊皮纸色 */
+        --wood: #4a2c14; /* 深棕色木质感 */
+        --accent: #7ab317; /* 森林绿 */
+        --accent-light: #a3cb38;
+        --text: #4a2c14;
+        --muted: #8d6e63;
+        
+        --pixel-border: 3px solid var(--wood);
+        --pixel-shadow: 4px 4px 0px rgba(74, 44, 20, 0.2);
+        
+        --font-main: "ZCOOL KuaiLe", "Rounded Mplus 1c", system-ui, sans-serif;
+        --container: 1000px;
       }
 
       /* =========================================================
         基础样式
       ========================================================= */
-      * {
-        box-sizing: border-box;
-      }
-      html,
-      body {
-        height: 100%;
-      }
+      * { box-sizing: border-box; }
       body {
         margin: 0;
-        font-family: var(--font-body);
+        font-family: var(--font-main);
         color: var(--text);
-        background: radial-gradient(1200px 700px at 20% 10%, rgba(66, 247, 230, 0.12), transparent 55%),
-          radial-gradient(900px 600px at 80% 20%, rgba(187, 167, 255, 0.13), transparent 60%),
-          radial-gradient(800px 520px at 70% 85%, rgba(124, 212, 255, 0.11), transparent 55%),
-          linear-gradient(180deg, #070b14 0%, var(--bg) 55%, #060a12 100%);
+        background-color: var(--bg);
         overflow-x: hidden;
+        line-height: 1.6;
       }
 
-      /* 高级“动态极光”层（缓慢流动、柔和、不杀马特） */
-      body::after {
-        content: "";
+      /* 背景像素落叶动画 */
+      .leaves-container {
         position: fixed;
-        inset: -20%;
+        top: 0; left: 0;
+        width: 100%; height: 100%;
         pointer-events: none;
         z-index: -1;
-        opacity: 0.9;
-        filter: blur(22px) saturate(1.08);
-        transform: translateZ(0);
-        background:
-          radial-gradient(40% 26% at 18% 22%, rgba(66, 247, 230, 0.18), transparent 60%),
-          radial-gradient(34% 26% at 72% 18%, rgba(187, 167, 255, 0.17), transparent 62%),
-          radial-gradient(30% 26% at 80% 72%, rgba(124, 212, 255, 0.14), transparent 62%),
-          radial-gradient(28% 22% at 28% 78%, rgba(66, 247, 230, 0.11), transparent 62%);
-        animation: auroraFloat 22s ease-in-out infinite alternate;
-        mix-blend-mode: screen;
       }
-      @keyframes auroraFloat {
-        0% {
-          transform: translate3d(-3%, -2%, 0) rotate(-2deg) scale(1.03);
-        }
-        50% {
-          transform: translate3d(2%, 1%, 0) rotate(2deg) scale(1.06);
-        }
-        100% {
-          transform: translate3d(5%, -1%, 0) rotate(0deg) scale(1.04);
-        }
+      .leaf {
+        position: absolute;
+        width: 10px; height: 10px;
+        background-color: var(--accent);
+        opacity: 0.6;
+        animation: fall linear infinite;
       }
-
-      /* 轻微噪点质感（不依赖图片） */
-      body::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        pointer-events: none;
-        opacity: 0.08;
-        mix-blend-mode: overlay;
-        background-image:
-          repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 2px),
-          repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 3px);
-        transform: translateZ(0);
+      @keyframes fall {
+        0% { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+        10% { opacity: 0.6; }
+        90% { opacity: 0.6; }
+        100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
       }
 
       /* =========================================================
-        Glassmorphism：全站玻璃卡片基类
+        宁静感卡片 (羊皮纸/木纹)
       ========================================================= */
-      .glass {
+      .cozy-card {
+        background-color: var(--card-bg);
+        border: var(--pixel-border);
+        box-shadow: var(--pixel-shadow);
+        border-radius: 4px; /* 像素风不需要太圆 */
+        padding: 24px;
         position: relative;
-        border-radius: var(--radius-lg);
-        background: linear-gradient(180deg, var(--glass-bg-2), var(--glass-bg));
-        border: 1px solid var(--glass-stroke);
-        backdrop-filter: blur(var(--glass-blur));
-        -webkit-backdrop-filter: blur(var(--glass-blur));
-        box-shadow: var(--glass-shadow);
-        overflow: hidden;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
       }
-      /* 内部微光：强调色更灵动（克制） */
-      .glass::before {
-        content: "";
-        position: absolute;
-        inset: -2px;
-        pointer-events: none;
-        opacity: 0.72;
-        background:
-          radial-gradient(460px 220px at 18% 18%, rgba(66, 247, 230, 0.16), transparent 62%),
-          radial-gradient(420px 220px at 85% 28%, rgba(187, 167, 255, 0.14), transparent 64%);
-        filter: saturate(1.1);
-      }
-      .glass > * {
-        position: relative;
-      }
-      /* 细强调色描边：渐变边缘 */
-      .glass::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        border-radius: inherit;
-        padding: 1px;
-        background: linear-gradient(
-          135deg,
-          rgba(66, 247, 230, 0.22),
-          rgba(255, 255, 255, 0.08),
-          rgba(187, 167, 255, 0.22)
-        );
-        mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-        -webkit-mask-composite: xor;
-        mask-composite: exclude;
-        pointer-events: none;
-        opacity: 0.52;
+      .cozy-card:hover {
+        transform: translate(-2px, -2px);
+        box-shadow: 6px 6px 0px var(--wood);
+        outline: 3px solid white; /* MC 选中描边感 */
       }
 
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-      .container {
-        width: min(var(--container), calc(100% - 44px));
-        margin: 0 auto;
-      }
+      a { color: inherit; text-decoration: none; }
+      .container { width: min(var(--container), calc(100% - 40px)); margin: 0 auto; }
 
       /* =========================================================
-        顶部导航（滚动固定）
+        导航
       ========================================================= */
       .nav {
+        background: var(--card-bg);
+        border-bottom: var(--pixel-border);
+        padding: 10px 0;
         position: sticky;
-        top: 0;
-        z-index: 50;
-        height: var(--nav-h);
-        display: flex;
-        align-items: center;
-        backdrop-filter: blur(14px);
-        -webkit-backdrop-filter: blur(14px);
-        background: linear-gradient(
-          180deg,
-          rgba(10, 16, 28, 0.72) 0%,
-          rgba(10, 16, 28, 0.46) 100%
-        );
-        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        top: 0; z-index: 100;
       }
-      .nav-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 18px;
-      }
-      .brand {
-        display: flex;
-        align-items: baseline;
-        gap: 10px;
-        letter-spacing: 0.3px;
-      }
-      .brand .mark {
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: 16px;
-        padding: 8px 10px;
-        border-radius: 12px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.12), rgba(187, 167, 255, 0.1));
-        box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
-      }
-      .brand .name {
-        font-weight: 650;
-        color: rgba(255, 255, 255, 0.86);
-        font-size: 14px;
-      }
-      .nav-links {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        flex-wrap: wrap;
-        justify-content: flex-end;
-      }
-      .nav-links a {
-        font-size: 13px;
-        color: rgba(255, 255, 255, 0.72);
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid transparent;
-        transition: transform 180ms ease, background 180ms ease, border-color 180ms ease,
-          color 180ms ease;
-      }
-      .nav-links a:hover {
-        color: rgba(255, 255, 255, 0.92);
-        background: rgba(255, 255, 255, 0.06);
-        border-color: rgba(255, 255, 255, 0.1);
-        transform: translateY(-1px);
-      }
-      .nav-cta {
-        margin-left: 6px;
-        padding: 10px 13px;
-        border-radius: 12px;
-        border: 1px solid rgba(66, 247, 230, 0.28);
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.12), rgba(187, 167, 255, 0.1));
-        color: rgba(255, 255, 255, 0.92);
-      }
-      .nav-cta:hover {
-        border-color: rgba(187, 167, 255, 0.34);
-      }
+      .nav-inner { display: flex; justify-content: space-between; align-items: center; }
+      .brand { font-size: 20px; font-weight: bold; border: 2px solid var(--wood); padding: 5px 10px; background: white; }
+      .nav-links a { margin-left: 20px; font-weight: bold; font-size: 14px; }
+      .nav-links a:hover { color: var(--accent); text-decoration: underline; }
 
       /* =========================================================
         Hero 区域
       ========================================================= */
-      .hero {
-        position: relative;
-        padding: 46px 0 22px;
-      }
-      .hero-grid {
-        display: grid;
-        grid-template-columns: 1.45fr 0.55fr;
-        gap: 22px;
-        align-items: stretch;
-      }
-      .hero-main {
-        position: relative;
-        padding: 28px 26px 26px;
-      }
-      .kicker {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 13px;
-        letter-spacing: 0.4px;
-      }
-      .kicker .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
-        box-shadow: 0 0 0 6px rgba(66, 247, 230, 0.09), 0 0 26px rgba(66, 247, 230, 0.22);
-      }
-      .hero-title {
-        margin: 14px 0 8px;
-        font-family: var(--font-display);
-        font-weight: 700;
-        font-size: clamp(34px, 6vw, 56px);
-        line-height: 1.05;
-        letter-spacing: 0.8px;
-      }
-      .hero-title .en {
-        display: block;
-        margin-top: 10px;
-        font-size: clamp(16px, 2.2vw, 22px);
-        color: rgba(255, 255, 255, 0.78);
-        font-weight: 550;
-        letter-spacing: 0.6px;
-      }
-      .one-liner {
-        margin: 10px 0 0;
-        color: rgba(255, 255, 255, 0.78);
-        font-size: 15px;
-        line-height: 1.55;
-        max-width: 54ch;
-      }
-      .one-liner strong {
-        color: rgba(255, 255, 255, 0.92);
-        font-weight: 750;
-      }
-      .typing-line {
-        margin: 14px 0 16px;
-        font-size: 16px;
-        color: rgba(255, 255, 255, 0.78);
-      }
-      .typing {
-        font-weight: 650;
-        color: rgba(255, 255, 255, 0.9);
-      }
-      .cursor {
-        display: inline-block;
-        width: 10px;
-        margin-left: 2px;
-        color: var(--accent);
-        animation: blink 1s steps(1, end) infinite;
-      }
-      @keyframes blink {
-        0%,
-        49% {
-          opacity: 1;
-        }
-        50%,
-        100% {
-          opacity: 0;
-        }
-      }
-
-      .hero-actions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 12px;
-        margin-top: 16px;
-      }
+      .hero { padding: 40px 0; }
+      .hero-grid { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 30px; }
+      .hero-title { font-size: 48px; margin: 0; color: var(--wood); }
+      .hero-title .en { font-size: 18px; display: block; opacity: 0.7; }
+      .typing-line { margin: 20px 0; font-size: 20px; background: rgba(0,0,0,0.05); padding: 5px 10px; display: inline-block; }
+      
+      /* 按钮重构：像游戏里的按钮 */
       .btn {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        gap: 10px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
-        color: rgba(255, 255, 255, 0.88);
-        font-weight: 650;
-        font-size: 14px;
-        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), background 180ms ease,
-          border-color 180ms ease, box-shadow 220ms ease;
-        will-change: transform, box-shadow;
-      }
-      .btn:hover {
-        transform: translateY(-1px) scale(1.03);
-        background: rgba(255, 255, 255, 0.075);
-        border-color: rgba(255, 255, 255, 0.2);
-        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(66, 247, 230, 0.08),
-          0 0 34px rgba(66, 247, 230, 0.14);
-      }
-      .btn.primary {
-        border-color: rgba(66, 247, 230, 0.32);
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.14), rgba(187, 167, 255, 0.12));
-      }
-      .btn.primary:hover {
-        border-color: rgba(187, 167, 255, 0.4);
-        box-shadow: 0 16px 44px rgba(0, 0, 0, 0.28), 0 0 36px rgba(187, 167, 255, 0.18),
-          0 0 30px rgba(66, 247, 230, 0.14);
-      }
-
-      .hero-side {
-        padding: 18px;
-        display: grid;
-        gap: 12px;
-      }
-      /* Hero 右侧：极简 AI 风格插图位（SVG） */
-      .ai-illus {
-        height: 100%;
-        min-height: 260px;
-        border-radius: var(--radius-lg);
-        padding: 18px;
-        display: grid;
-        place-items: center;
-      }
-      .ai-illus .cap {
-        margin-top: 10px;
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.6);
-        letter-spacing: 0.3px;
-      }
-      .ai-illus svg {
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        opacity: 0.92;
-        filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.25));
-      }
-
-      /* =========================================================
-        通用 section
-      ========================================================= */
-      main {
-        padding-bottom: 50px;
-      }
-      section {
-        padding: 34px 0;
-      }
-      .section-head {
-        display: flex;
-        align-items: flex-end;
-        justify-content: space-between;
-        gap: 14px;
-        margin-bottom: 14px;
-      }
-      h2 {
-        margin: 0;
-        font-family: var(--font-display);
-        letter-spacing: 0.6px;
-        font-size: 22px;
-      }
-      .section-sub {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.66);
-        font-size: 14px;
-        max-width: 62ch;
-      }
-      .panel {
-        padding: 18px;
-      }
-
-      /* =========================================================
-        关于我
-      ========================================================= */
-      .about-grid {
-        display: grid;
-        grid-template-columns: 1.2fr 0.8fr;
-        gap: 16px;
-      }
-      .about p {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.78);
-        line-height: 1.75;
-        font-size: 15px;
-      }
-      .about strong {
-        color: rgba(255, 255, 255, 0.92);
-        font-weight: 750;
-      }
-      .facts {
-        display: grid;
-        gap: 10px;
-      }
-      .fact {
-        border-radius: 16px;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        background: rgba(255, 255, 255, 0.04);
-        padding: 12px 12px;
-        display: grid;
-        gap: 6px;
-      }
-      .fact .k {
-        font-size: 12px;
-        color: rgba(255, 255, 255, 0.62);
-      }
-      .fact .v {
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.88);
-      }
-
-      /* =========================================================
-        技能与爱好：标签卡片
-      ========================================================= */
-      .tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-      .tag {
-        position: relative;
-        padding: 10px 12px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.04);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-        color: rgba(255, 255, 255, 0.86);
-        font-weight: 650;
-        font-size: 13px;
-        letter-spacing: 0.2px;
-        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), border-color 160ms ease,
-          background 160ms ease, box-shadow 220ms ease, filter 220ms ease;
-        user-select: none;
-        will-change: transform, box-shadow;
-      }
-      .tag::before {
-        content: "";
-        position: absolute;
-        inset: -1px;
-        border-radius: 999px;
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.18), rgba(187, 167, 255, 0.16));
-        opacity: 0;
-        transition: opacity 160ms ease;
-        pointer-events: none;
-      }
-      .tag span {
-        position: relative;
-      }
-      .tag:hover {
-        transform: translateY(-1px) scale(1.05);
-        background: rgba(255, 255, 255, 0.07);
-        border-color: rgba(255, 255, 255, 0.24);
-        box-shadow: 0 18px 42px rgba(0, 0, 0, 0.22), 0 0 30px rgba(66, 247, 230, 0.11);
-        filter: saturate(1.08);
-      }
-      .tag:hover::before {
-        opacity: 1;
-      }
-      .tag.accent {
-        border-color: rgba(66, 247, 230, 0.3);
-      }
-      .tag.accent2 {
-        border-color: rgba(187, 167, 255, 0.3);
-      }
-
-      /* =========================================================
-        联系方式
-      ========================================================= */
-      .contact-card {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        align-items: center;
-        gap: 12px;
-      }
-      .mail {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        padding: 12px 14px;
-        border-radius: 14px;
-        border: 1px solid rgba(66, 247, 230, 0.28);
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.12), rgba(187, 167, 255, 0.1));
-        color: rgba(255, 255, 255, 0.92);
-        font-weight: 750;
-        letter-spacing: 0.2px;
-        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), border-color 180ms ease,
-          box-shadow 220ms ease;
-      }
-      .mail:hover {
-        transform: translateY(-1px) scale(1.02);
-        border-color: rgba(187, 167, 255, 0.38);
-        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.26), 0 0 34px rgba(187, 167, 255, 0.14),
-          0 0 26px rgba(66, 247, 230, 0.12);
-      }
-      .copy {
-        padding: 11px 12px;
-        border-radius: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        background: rgba(255, 255, 255, 0.05);
-        color: rgba(255, 255, 255, 0.82);
-        font-weight: 650;
+        display: inline-block;
+        padding: 10px 20px;
+        background: #8bc34a;
+        border: var(--pixel-border);
+        box-shadow: 0 4px 0 #558b2f;
+        color: white;
+        font-weight: bold;
         cursor: pointer;
-        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), background 180ms ease,
-          border-color 180ms ease, box-shadow 220ms ease;
-        backdrop-filter: blur(16px);
-        -webkit-backdrop-filter: blur(16px);
+        margin-right: 10px;
+        transition: all 0.1s;
       }
-      .copy:hover {
-        transform: translateY(-1px) scale(1.02);
-        background: rgba(255, 255, 255, 0.075);
-        border-color: rgba(255, 255, 255, 0.22);
-        box-shadow: 0 16px 42px rgba(0, 0, 0, 0.22), 0 0 22px rgba(124, 212, 255, 0.12);
-      }
+      .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #558b2f; }
+      .btn.secondary { background: #cfd8dc; box-shadow: 0 4px 0 #90a4ae; color: #455a64; }
 
       /* =========================================================
-        我的灵感实验室（精致卡片随笔）
+        标签与卡片细节
       ========================================================= */
-      .lab-grid {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
-      }
-      .lab-card {
-        padding: 16px;
-        border-radius: var(--radius-lg);
-      }
-      /* 灵感实验室首卡：项目入口强调态（保持玻璃风格） */
-      .lab-card.featured {
-        position: relative;
-        box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(66, 247, 230, 0.14),
-          0 0 24px rgba(66, 247, 230, 0.1);
-        animation: labBreath 3.6s ease-in-out infinite;
-        transition: transform 260ms cubic-bezier(0.18, 1.25, 0.26, 1), box-shadow 260ms ease;
-      }
-      .lab-card.featured:hover {
-        transform: translateY(-6px) scale(1.01);
-        box-shadow: 0 24px 58px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(187, 167, 255, 0.28),
-          0 0 34px rgba(187, 167, 255, 0.2), 0 0 30px rgba(66, 247, 230, 0.18);
-      }
-      @keyframes labBreath {
-        0%,
-        100% {
-          box-shadow: 0 14px 36px rgba(0, 0, 0, 0.24), 0 0 0 1px rgba(66, 247, 230, 0.14),
-            0 0 22px rgba(66, 247, 230, 0.1);
-        }
-        50% {
-          box-shadow: 0 18px 42px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(187, 167, 255, 0.22),
-            0 0 30px rgba(187, 167, 255, 0.16), 0 0 24px rgba(66, 247, 230, 0.14);
-        }
-      }
-      .lab-meta {
-        display: inline-flex;
-        gap: 10px;
-        align-items: center;
-        color: rgba(255, 255, 255, 0.62);
+      .tag {
+        display: inline-block;
+        padding: 5px 12px;
+        background: white;
+        border: 2px solid var(--wood);
+        margin: 5px;
         font-size: 12px;
-        letter-spacing: 0.35px;
+        font-weight: bold;
       }
-      .lab-meta b {
-        font-family: var(--font-display);
-        font-weight: 700;
-        color: rgba(255, 255, 255, 0.82);
-      }
-      .lab-title {
-        margin: 10px 0 6px;
-        font-weight: 750;
-        letter-spacing: 0.3px;
-      }
-      .lab-text {
-        margin: 0;
-        color: rgba(255, 255, 255, 0.72);
-        line-height: 1.7;
-        font-size: 14px;
-      }
-      .lab-hint {
-        margin-top: 12px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        color: rgba(255, 255, 255, 0.6);
-        font-size: 12px;
-      }
-      .lab-hint i {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
-        box-shadow: 0 0 24px rgba(66, 247, 230, 0.18);
-      }
-      .lab-tags {
-        margin-top: 12px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-      }
-      .lab-tag {
-        padding: 6px 10px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
-        background: rgba(255, 255, 255, 0.06);
-        color: rgba(255, 255, 255, 0.86);
-        font-size: 12px;
-        font-weight: 650;
-        letter-spacing: 0.2px;
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-      }
-      .lab-link-btn {
-        margin-top: 14px;
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-        padding: 10px 12px;
-        border-radius: 12px;
-        border: 1px solid rgba(66, 247, 230, 0.28);
-        background: linear-gradient(135deg, rgba(66, 247, 230, 0.12), rgba(187, 167, 255, 0.1));
-        color: rgba(255, 255, 255, 0.92);
-        font-size: 13px;
-        font-weight: 750;
-        letter-spacing: 0.2px;
-        transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
-      }
-      .lab-link-btn:hover {
-        transform: translateY(-1px);
-        border-color: rgba(187, 167, 255, 0.36);
-        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.2), 0 0 24px rgba(66, 247, 230, 0.14);
-      }
+      .tag.accent { background: #dcedc8; }
+      
+      .lab-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+      .lab-link-btn { margin-top: 15px; display: block; text-align: center; background: #ffcc80; border: 2px solid var(--wood); padding: 8px; font-weight: bold; }
 
       /* =========================================================
-        访客留言（Giscus）
-      ========================================================= */
-      .guestbook-wrap {
-        padding: 14px;
-      }
-      .guestbook-tip {
-        margin: 0 0 10px;
-        color: rgba(255, 255, 255, 0.64);
-        font-size: 13px;
-      }
-
-      /* =========================================================
-        页脚
-      ========================================================= */
-      footer {
-        padding: 22px 0 36px;
-        color: rgba(255, 255, 255, 0.55);
-        font-size: 13px;
-      }
-      .footer-inner {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        flex-wrap: wrap;
-        border-top: 1px solid rgba(255, 255, 255, 0.08);
-        padding-top: 18px;
-      }
-      .tiny-glow {
-        display: inline-flex;
-        align-items: center;
-        gap: 8px;
-      }
-      .tiny-glow i {
-        width: 10px;
-        height: 10px;
-        border-radius: 999px;
-        background: radial-gradient(circle at 30% 30%, var(--accent), var(--accent2));
-        box-shadow: 0 0 22px rgba(66, 247, 230, 0.22);
-      }
-
-      /* =========================================================
-        悬浮音乐播放器（极简玻璃按钮）
+        悬浮音乐播放器 (像素小音箱)
       ========================================================= */
       .music-fab {
         position: fixed;
-        left: 22px;
-        bottom: 22px;
-        z-index: 80;
+        right: 30px; bottom: 30px;
+        z-index: 99999; /* 确保层级最高 */
       }
       .music-btn {
-        position: relative;
-        width: 58px;
-        height: 58px;
-        border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.24);
-        background: linear-gradient(180deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.08));
-        backdrop-filter: blur(20px);
-        -webkit-backdrop-filter: blur(20px);
-        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.28), 0 0 0 1px rgba(66, 247, 230, 0.08);
-        color: rgba(255, 255, 255, 0.9);
+        width: 60px; height: 60px;
+        background: #a1887f;
+        border: 3px solid var(--wood);
+        box-shadow: 4px 4px 0px rgba(0,0,0,0.2);
         cursor: pointer;
-        display: grid;
-        place-items: center;
-        transition: transform 220ms cubic-bezier(0.18, 1.25, 0.26, 1), box-shadow 220ms ease,
-          border-color 220ms ease;
+        display: grid; place-items: center;
+        transition: 0.1s;
       }
-      .music-btn:hover {
-        transform: translateY(-2px) scale(1.03);
-        border-color: rgba(187, 167, 255, 0.36);
-        box-shadow: 0 20px 44px rgba(0, 0, 0, 0.3), 0 0 28px rgba(66, 247, 230, 0.16);
+      .music-btn:hover { transform: scale(1.1); }
+      .music-btn.playing { animation: pulse 0.5s infinite alternate; }
+      @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
+
+      /* 像素音符动画 */
+      .note {
+        position: absolute; top: -20px; font-size: 20px;
+        animation: noteFloat 1.5s infinite; opacity: 0;
+      }
+      @keyframes noteFloat {
+        0% { transform: translateY(0); opacity: 1; }
+        100% { transform: translateY(-30px); opacity: 0; }
       }
 
-      /* hover 小提示 */
-      .music-btn::after {
-        content: attr(data-tip);
-        position: absolute;
-        left: 68px;
-        top: 50%;
-        transform: translateY(-50%) translateX(-4px);
-        white-space: nowrap;
-        font-size: 12px;
-        font-weight: 650;
-        letter-spacing: 0.2px;
-        color: rgba(255, 255, 255, 0.88);
-        padding: 8px 10px;
-        border-radius: 10px;
-        border: 1px solid rgba(255, 255, 255, 0.16);
-        background: rgba(9, 14, 25, 0.72);
-        backdrop-filter: blur(10px);
-        -webkit-backdrop-filter: blur(10px);
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 180ms ease, transform 180ms ease;
-      }
-      .music-btn:hover::after {
-        opacity: 1;
-        transform: translateY(-50%) translateX(0);
-      }
-
-      /* 播放/暂停图标平滑切换 */
-      .music-icon {
-        position: relative;
-        width: 20px;
-        height: 20px;
-      }
-      .music-icon .play,
-      .music-icon .pause {
-        position: absolute;
-        inset: 0;
-        transition: opacity 200ms ease, transform 240ms ease;
-      }
-      .music-icon .play {
-        opacity: 1;
-        transform: scale(1);
-      }
-      .music-icon .pause {
-        opacity: 0;
-        transform: scale(0.86);
-      }
-      .music-btn.playing .music-icon .play {
-        opacity: 0;
-        transform: scale(0.82);
-      }
-      .music-btn.playing .music-icon .pause {
-        opacity: 1;
-        transform: scale(1);
-      }
-
-      /* 播放时脉冲光圈 */
-      .music-btn .pulse {
-        position: absolute;
-        inset: -7px;
-        border-radius: 999px;
-        border: 1px solid rgba(66, 247, 230, 0.28);
-        opacity: 0;
-        transform: scale(0.94);
-        pointer-events: none;
-      }
-      .music-btn.playing .pulse {
-        animation: musicPulse 2.1s ease-out infinite;
-        opacity: 1;
-      }
-      @keyframes musicPulse {
-        0% {
-          transform: scale(0.94);
-          opacity: 0.42;
-          border-color: rgba(66, 247, 230, 0.28);
-        }
-        65% {
-          transform: scale(1.2);
-          opacity: 0.1;
-          border-color: rgba(187, 167, 255, 0.24);
-        }
-        100% {
-          transform: scale(1.28);
-          opacity: 0;
-          border-color: rgba(66, 247, 230, 0.12);
-        }
-      }
-
-      /* =========================================================
-        滚动进入视口淡入动画（统一控制）
-      ========================================================= */
-      .reveal {
-        opacity: 0;
-        transform: translateY(14px);
-        filter: blur(6px);
-        transition: opacity 700ms ease, transform 700ms cubic-bezier(0.2, 0.9, 0.2, 1),
-          filter 700ms ease;
-        will-change: opacity, transform, filter;
-      }
-      .reveal.in {
-        opacity: 1;
-        transform: translateY(0);
-        filter: blur(0);
-      }
-      @media (prefers-reduced-motion: reduce) {
-        body::after {
-          animation: none;
-        }
-        .reveal {
-          opacity: 1;
-          transform: none;
-          filter: none;
-          transition: none;
-        }
-        .cursor {
-          animation: none;
-        }
-        .music-btn .pulse,
-        .music-btn.playing .pulse {
-          animation: none;
-          opacity: 0;
-        }
-      }
-
-      /* =========================================================
-        移动端适配
-      ========================================================= */
-      @media (max-width: 860px) {
-        :root {
-          --nav-h: 66px;
-        }
-        .hero-grid {
-          grid-template-columns: 1fr;
-        }
-        .hero {
-          padding-top: 28px;
-        }
-        .about-grid {
-          grid-template-columns: 1fr;
-        }
-        .contact-card {
-          grid-template-columns: 1fr;
-        }
-        .lab-grid {
-          grid-template-columns: 1fr;
-        }
-        .nav-links a {
-          padding: 9px 10px;
-        }
-      }
-      @media (max-width: 520px) {
-        .container {
-          width: min(var(--container), calc(100% - 28px));
-        }
-        .brand .name {
-          display: none;
-        }
-        .hero-main {
-          padding: 22px 18px 18px;
-        }
-        .panel {
-          padding: 16px;
-        }
-        .music-fab {
-          left: 14px;
-          bottom: 14px;
-        }
+      /* 响应式 */
+      @media (max-width: 768px) {
+        .hero-grid, .lab-grid { grid-template-columns: 1fr; }
+        .hero-title { font-size: 32px; }
       }
     </style>
   </head>
 
   <body>
-    <!-- 顶部导航栏（滚动固定） -->
+    <div class="leaves-container" id="leaves"></div>
+
     <header class="nav">
       <div class="container nav-inner">
-        <a class="brand" href="#top" aria-label="回到顶部">
-          <span class="mark">SZ</span>
-          <span class="name">Shaoyi Zhang</span>
-        </a>
-
-        <nav class="nav-links" aria-label="页面导航">
-          <a href="#about">关于我</a>
-          <a href="#skills">技能爱好</a>
-          <a class="nav-cta" href="#contact">联系我</a>
+        <div class="brand">SZ | 田园小站</div>
+        <nav class="nav-links">
+          <a href="#about">关于</a>
+          <a href="#skills">技能</a>
+          <a href="#lab">实验室</a>
+          <a href="#contact" style="background:var(--wood); color:white; padding: 5px 10px;">找我!</a>
         </nav>
       </div>
     </header>
 
-    <main id="top">
-      <!-- Hero -->
+    <main class="container">
       <section class="hero">
-        <div class="container hero-grid">
-          <div class="hero-card glass reveal">
-            <div class="hero-main">
-              <div class="kicker">
-                <span class="dot" aria-hidden="true"></span>
-                <span>上海政法学院 · 网络与新媒体 · 大三</span>
-              </div>
-
-              <h1 class="hero-title">
-                张少毅
-                <span class="en">Shaoyi Zhang</span>
-              </h1>
-
-              <!-- 一句话介绍：移动到姓名正下方 -->
-              <p class="one-liner"><strong>一个持续探索</strong>新知识与新技能的人</p>
-
-              <!-- 打字机副标题（循环展示） -->
-              <div class="typing-line" aria-label="个人定位">
-                <span class="typing" id="typingText"></span><span class="cursor" aria-hidden="true">▍</span>
-              </div>
-
-              <div class="hero-actions">
-                <a class="btn primary" href="#about">了解我</a>
-                <a class="btn" href="mailto:fuoguzz@gmail.com?subject=Hello%20Shaoyi">发邮件</a>
-              </div>
+        <div class="hero-grid">
+          <div class="cozy-card">
+            <div style="font-size: 14px; color: var(--accent); font-weight: bold;">🌱 上海政法学院 · 网络与新媒体</div>
+            <h1 class="hero-title">张少毅<span class="en">Shaoyi Zhang</span></h1>
+            <p><strong>一个持续探索</strong>新知识与新技能的“数字农夫”</p>
+            <div class="typing-line">
+              <span id="typingText"></span><span style="color:var(--accent)">_</span>
+            </div>
+            <div style="margin-top: 20px;">
+              <a class="btn" href="#about">了解我</a>
+              <a class="btn secondary" href="mailto:fuoguzz@gmail.com">写封信</a>
             </div>
           </div>
-
-          <!-- Hero 右侧留白/插图：让空间更开阔（极简 AI 风格 SVG） -->
-          <aside class="hero-card glass reveal ai-illus" aria-label="极简 AI 风格插图">
-            <div>
-              <svg viewBox="0 0 520 420" role="img" aria-label="AI 抽象网络插图">
-                <defs>
-                  <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0" stop-color="rgba(66,247,230,0.95)" />
-                    <stop offset="0.55" stop-color="rgba(124,212,255,0.75)" />
-                    <stop offset="1" stop-color="rgba(187,167,255,0.9)" />
-                  </linearGradient>
-                  <radialGradient id="gl" cx="35%" cy="30%" r="65%">
-                    <stop offset="0" stop-color="rgba(66,247,230,0.22)" />
-                    <stop offset="0.6" stop-color="rgba(187,167,255,0.12)" />
-                    <stop offset="1" stop-color="rgba(255,255,255,0)" />
-                  </radialGradient>
-                  <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-                    <feGaussianBlur stdDeviation="1.6" result="b" />
-                    <feColorMatrix
-                      in="b"
-                      type="matrix"
-                      values="
-                        1 0 0 0 0
-                        0 1 0 0 0
-                        0 0 1 0 0
-                        0 0 0 0.9 0"
-                    />
-                  </filter>
-                </defs>
-
-                <rect x="0" y="0" width="520" height="420" fill="url(#gl)" opacity="0.9" />
-
-                <!-- 线条网络 -->
-                <g stroke="url(#g1)" stroke-width="2" opacity="0.75" fill="none">
-                  <path d="M72 290 C120 220, 182 220, 232 160 S352 96, 420 138" />
-                  <path d="M98 118 C170 140, 220 178, 262 240 S360 332, 452 310" />
-                  <path d="M122 340 C172 292, 238 286, 300 246 S420 162, 468 186" />
-                  <path d="M68 210 C132 182, 182 186, 230 214 S342 280, 460 254" />
-                </g>
-
-                <!-- 节点 -->
-                <g filter="url(#soft)">
-                  <circle cx="72" cy="290" r="8" fill="rgba(66,247,230,0.95)" />
-                  <circle cx="232" cy="160" r="7" fill="rgba(124,212,255,0.9)" />
-                  <circle cx="420" cy="138" r="8" fill="rgba(187,167,255,0.92)" />
-                  <circle cx="98" cy="118" r="7" fill="rgba(187,167,255,0.86)" />
-                  <circle cx="262" cy="240" r="9" fill="rgba(66,247,230,0.88)" />
-                  <circle cx="452" cy="310" r="8" fill="rgba(124,212,255,0.9)" />
-                  <circle cx="122" cy="340" r="7" fill="rgba(66,247,230,0.9)" />
-                  <circle cx="468" cy="186" r="7" fill="rgba(187,167,255,0.9)" />
-                  <circle cx="68" cy="210" r="7" fill="rgba(124,212,255,0.86)" />
-                  <circle cx="460" cy="254" r="7" fill="rgba(66,247,230,0.86)" />
-                </g>
-
-                <!-- 细点星尘 -->
-                <g fill="rgba(255,255,255,0.35)" opacity="0.65">
-                  <circle cx="172" cy="106" r="1.5" />
-                  <circle cx="310" cy="112" r="1.5" />
-                  <circle cx="392" cy="220" r="1.5" />
-                  <circle cx="206" cy="312" r="1.5" />
-                  <circle cx="338" cy="320" r="1.5" />
-                  <circle cx="154" cy="244" r="1.5" />
-                </g>
-              </svg>
-              <div class="cap">Minimal AI network / glass light</div>
-            </div>
-          </aside>
-        </div>
-      </section>
-
-      <!-- 关于我 -->
-      <section id="about" class="about">
-        <div class="container">
-          <div class="section-head reveal">
-            <div>
-              <h2>关于我</h2>
-              <p class="section-sub">
-                关注方向：<strong>AI 应用探索</strong> · <strong>内容表达</strong> · <strong>交互体验</strong>。我在<strong>网络与新媒体</strong>的学习中持续关注内容与技术的交叉点，尤其是 AI 工具如何帮助更高效地表达、创作与落地想法。
-              </p>
-            </div>
-          </div>
-
-          <div class="about-grid">
-            <div class="panel glass reveal">
-              <p>
-                你好，我是<strong>张少毅</strong>（Shaoyi Zhang），目前就读于<strong>上海政法学院</strong>，专业为<strong>网络与新媒体</strong>，大三。
-                我喜欢把新知识拆成可执行的小步骤去实践：从体验 AI 应用，到做内容与交互的优化，再到把好想法落成一个能用的页面。
-              </p>
-            </div>
-
-            <div class="facts reveal" aria-label="关键信息">
-              <div class="fact glass">
-                <div class="k">学校</div>
-                <div class="v">上海政法学院</div>
-              </div>
-              <div class="fact glass">
-                <div class="k">专业</div>
-                <div class="v">网络与新媒体</div>
-              </div>
-              <div class="fact glass">
-                <div class="k">年级</div>
-                <div class="v">大三</div>
-              </div>
-            </div>
+          <div class="cozy-card" style="display: grid; place-items: center; background: #e8f5e9;">
+             <div style="text-align: center; opacity: 0.6;">
+                <div style="font-size: 50px;">🏠</div>
+                <div style="font-size: 12px;">Pixel Home / Coziness</div>
+             </div>
           </div>
         </div>
       </section>
 
-      <!-- 技能与爱好 -->
+      <section id="about">
+        <h2 style="border-left: 10px solid var(--accent); padding-left: 15px;">关于我</h2>
+        <div class="cozy-card">
+          <p>你好，我是<strong>张少毅</strong>。目前大三。我喜欢把复杂的 AI 技术转化成温暖好玩的东西。对我来说，代码不只是逻辑，也是一片可以耕耘的田地。</p>
+        </div>
+      </section>
+
       <section id="skills">
-        <div class="container">
-          <div class="section-head reveal">
-            <div>
-              <h2>技能与爱好</h2>
-              <p class="section-sub">用标签卡片快速浏览我喜欢做的事与正在投入的方向。</p>
-            </div>
-          </div>
-
-          <div class="panel glass reveal">
-            <div class="tags" aria-label="技能与爱好标签">
-              <div class="tag accent"><span>探索 AI 应用</span></div>
-              <div class="tag accent2"><span>终身学习</span></div>
-              <div class="tag"><span>阅读</span></div>
-              <div class="tag"><span>游戏</span></div>
-              <div class="tag"><span>旅行</span></div>
-              <div class="tag"><span>内容表达</span></div>
-              <div class="tag"><span>新媒体观察</span></div>
-              <div class="tag"><span>产品体验</span></div>
-            </div>
-          </div>
+        <h2 style="border-left: 10px solid #ffb74d; padding-left: 15px;">技能清单</h2>
+        <div class="cozy-card">
+          <div class="tag accent">探索 AI 应用</div>
+          <div class="tag accent">新媒体运营</div>
+          <div class="tag">阅读</div>
+          <div class="tag">游戏 (MC/星露谷)</div>
+          <div class="tag">旅行</div>
+          <div class="tag">Vibe Coding</div>
         </div>
       </section>
 
-      <!-- 我的灵感实验室（新媒体特色：精致卡片随笔，预留 3 个位置） -->
       <section id="lab">
-        <div class="container">
-          <div class="section-head reveal">
-            <div>
-              <h2>我的灵感实验室</h2>
-              <p class="section-sub">这里放一些我随手记录的“小实验”：想法、观察、工具试用与内容尝试。</p>
-            </div>
-          </div>
-
-          <div class="lab-grid">
-            <article class="lab-card glass reveal featured" aria-label="AI 智能课表可视化工具入口">
-              <div class="lab-meta"><b>01</b><span>项目入口 · 已上线</span></div>
-              <div class="lab-title">AI 智能课表可视化工具</div>
-              <p class="lab-text">
-                针对大学生设计的极简周视图课表，支持本地存储与 Canvas 高清导出。Vibe Coding 实战项目 No.2。
-              </p>
-              <div class="lab-tags" aria-label="项目标签">
-                <span class="lab-tag">原生 JS</span>
-                <span class="lab-tag">Canvas 渲染</span>
-                <span class="lab-tag">工具类</span>
-              </div>
-              <a
-                class="lab-link-btn"
-                href="https://fuoguz.github.io/my-timetable/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="新标签页打开 AI 智能课表工具"
-                >立即体验 ↗</a
-              >
-            </article>
-
-            <article class="lab-card glass reveal" aria-label="灵感实验室卡片 2">
-              <div class="lab-meta"><b>02</b><span>随笔位 · 待填充</span></div>
-              <div class="lab-title">新媒体观察：内容与算法的“交界处”</div>
-              <p class="lab-text">预留：记录你看到的趋势、案例、用户反馈，或一段很短的复盘。</p>
-              <div class="lab-hint"><i aria-hidden="true"></i><span>可放：引用 / 灵感来源</span></div>
-            </article>
-
-            <article class="lab-card glass reveal" aria-label="灵感实验室卡片 3">
-              <div class="lab-meta"><b>03</b><span>随笔位 · 待填充</span></div>
-              <div class="lab-title">AI 工具清单：我真正会反复打开的</div>
-              <p class="lab-text">预留：写下 3 个常用工具 + 为什么好用（效率 / 质量 / 心流）。</p>
-              <div class="lab-hint"><i aria-hidden="true"></i><span>可放：工具链接 / 个人用法</span></div>
-            </article>
-          </div>
+        <h2 style="border-left: 10px solid #64b5f6; padding-left: 15px;">灵感实验室</h2>
+        <div class="lab-grid">
+          <article class="cozy-card">
+            <div style="font-size: 12px; opacity: 0.6;">PROJECT 01</div>
+            <h3 style="margin: 10px 0;">AI 智能课表</h3>
+            <p style="font-size: 14px;">把枯燥的课表变成好看的周视图。</p>
+            <a class="lab-link-btn" href="https://fuoguz.github.io/my-timetable/" target="_blank">开启工具 ↗</a>
+          </article>
+          <article class="cozy-card" style="opacity: 0.7;">
+            <div style="font-size: 12px; opacity: 0.6;">LOG 02</div>
+            <h3 style="margin: 10px 0;">新媒体观察</h3>
+            <p style="font-size: 14px;">等待填充灵感...</p>
+          </article>
+          <article class="cozy-card" style="opacity: 0.7;">
+            <div style="font-size: 12px; opacity: 0.6;">LIST 03</div>
+            <h3 style="margin: 10px 0;">工具箱</h3>
+            <p style="font-size: 14px;">收集好用的 AI 种子。</p>
+          </article>
         </div>
       </section>
 
-      <!-- 访客留言（Giscus） -->
       <section id="guestbook">
-        <div class="container">
-          <div class="section-head reveal">
-            <div>
-              <h2>💬 访客留言</h2>
-              <p class="section-sub">欢迎留下你的想法与建议。</p>
-            </div>
-          </div>
-
-          <div class="panel glass reveal guestbook-wrap">
-            <div class="giscus"></div>          
-            <script
-              src="https://giscus.app/client.js"
-              data-repo="Fuoguz/my-portfolio"
-              data-repo-id="R_kgDORxlnhA"
-              data-category="General"
-              data-category-id="DIC_kwDORxlnhM4C5V0I"
-              data-mapping="pathname"
-              data-strict="0"
-              data-reactions-enabled="1"
-              data-emit-metadata="0"
-              data-input-position="top"
-              data-theme="transparent_dark"
-              data-lang="zh-CN"
-              crossorigin="anonymous"
-              async
-            ></script>
-          </div>
-        </div>
-      </section>
-
-      <!-- 联系方式 -->
-      <section id="contact">
-        <div class="container">
-          <div class="section-head reveal">
-            <div>
-              <h2>联系方式</h2>
-              <p class="section-sub">欢迎交流合作、项目沟通或一起聊 AI / 新媒体。</p>
-            </div>
-          </div>
-
-          <div class="panel glass reveal contact-card">
-            <div>
-              <div style="font-weight: 750; letter-spacing: 0.3px">邮箱</div>
-              <div style="margin-top: 6px; color: rgba(255, 255, 255, 0.72); font-size: 14px">
-                点击即可打开邮件客户端（mailto）。
-              </div>
-            </div>
-            <div style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end">
-              <a class="mail" href="mailto:fuoguzz@gmail.com">fuoguzz@gmail.com</a>
-              <button class="copy" type="button" id="copyEmailBtn">复制邮箱</button>
-            </div>
-          </div>
+        <h2 style="border-left: 10px solid #ba68c8; padding-left: 15px;">留言墙</h2>
+        <div class="cozy-card">
+          <div class="giscus"></div>
+          <script src="https://giscus.app/client.js"
+            data-repo="Fuoguz/my-portfolio"
+            data-repo-id="R_kgDORxlnhA"
+            data-category="General"
+            data-category-id="DIC_kwDORxlnhM4C5V0I"
+            data-mapping="pathname"
+            data-strict="0"
+            data-reactions-enabled="1"
+            data-emit-metadata="0"
+            data-input-position="top"
+            data-theme="light"
+            data-lang="zh-CN"
+            crossorigin="anonymous"
+            async>
+          </script>
         </div>
       </section>
     </main>
 
-    <footer>
-      <div class="container footer-inner">
-        <div class="tiny-glow"><i aria-hidden="true"></i><span>Built with HTML · CSS · JS</span></div>
-        <div>© <span id="year"></span> Shaoyi Zhang</div>
-      </div>
+    <footer style="text-align: center; padding: 40px 0; opacity: 0.6; font-size: 12px;">
+      <p>© 2026 张少毅 | 这里的庄稼长势喜人</p>
     </footer>
 
-    <!-- 悬浮音乐播放器 -->
-    <div class="music-fab" aria-label="悬浮音乐播放器">
-      <button class="music-btn" id="musicBtn" type="button" data-tip="Listen to Lofi" aria-pressed="false">
-        <span class="pulse" aria-hidden="true"></span>
-        <span class="music-icon" aria-hidden="true">
-          <svg class="play" viewBox="0 0 24 24" fill="none">
-            <path d="M8 6.5v11l9-5.5z" fill="currentColor" />
-          </svg>
-          <svg class="pause" viewBox="0 0 24 24" fill="none">
-            <rect x="7" y="6" width="3.5" height="12" rx="1" fill="currentColor" />
-            <rect x="13.5" y="6" width="3.5" height="12" rx="1" fill="currentColor" />
-          </svg>
-        </span>
+    <div class="music-fab">
+      <div id="note" class="note">♪</div>
+      <button class="music-btn" id="musicBtn" title="点击播放宁静背景音">
+        <div id="icon" style="font-size: 30px;">📻</div>
       </button>
-      <audio id="bgmPlayer" preload="none" loop>
-        <!-- 可在这里替换音乐链接 -->
-        <source src="https://www.bensound.com/bensound-music/bensound-slowmotion.mp3" type="audio/mpeg" />
+      <audio id="bgmPlayer" loop>
+        <source src="./bgm.mp3" type="audio/mpeg">
       </audio>
     </div>
 
     <script>
-      // =========================================================
-      // 1) Hero 打字机动画（循环展示）
-      // =========================================================
-      (function initTyping() {
-        const el = document.getElementById("typingText");
-        if (!el) return;
-
-        const phrases = ["网络与新媒体学生", "AI 探索者", "终身学习者"];
-
-        // 打字机参数（可按喜好调整）
-        const typeSpeed = 70; // 每个字出现速度
-        const deleteSpeed = 42; // 删除速度
-        const holdAfterType = 900; // 打完停留
-        const holdAfterDelete = 260; // 删除完停留
-
-        let p = 0;
-        let i = 0;
-        let deleting = false;
-
-        // 如果用户开启“减少动态效果”，就静态展示第一条
-        const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-        if (reduced) {
-          el.textContent = phrases[0];
-          return;
+      // 1. 打字机
+      const phrases = ["网络与新媒体学生", "AI 探索者", "终身学习者", "星露谷资深农民"];
+      let p=0, i=0, el=document.getElementById("typingText"), del=false;
+      function tick() {
+        let full = phrases[p];
+        if(!del) {
+          el.textContent = full.slice(0, ++i);
+          if(i === full.length) { del=true; setTimeout(tick, 2000); }
+          else setTimeout(tick, 100);
+        } else {
+          el.textContent = full.slice(0, --i);
+          if(i === 0) { del=false; p=(p+1)%phrases.length; setTimeout(tick, 500); }
+          else setTimeout(tick, 50);
         }
+      }
+      tick();
 
-        function tick() {
-          const full = phrases[p];
+      // 2. 像素落叶生成
+      const leafContainer = document.getElementById("leaves");
+      for(let j=0; j<15; j++) {
+        let leaf = document.createElement("div");
+        leaf.className = "leaf";
+        leaf.style.left = Math.random() * 100 + "vw";
+        leaf.style.animationDuration = (Math.random() * 5 + 5) + "s";
+        leaf.style.animationDelay = Math.random() * 5 + "s";
+        leafContainer.appendChild(leaf);
+      }
 
-          if (!deleting) {
-            i = Math.min(i + 1, full.length);
-            el.textContent = full.slice(0, i);
-            if (i === full.length) {
-              deleting = true;
-              window.setTimeout(tick, holdAfterType);
-              return;
-            }
-            window.setTimeout(tick, typeSpeed);
-          } else {
-            i = Math.max(i - 1, 0);
-            el.textContent = full.slice(0, i);
-            if (i === 0) {
-              deleting = false;
-              p = (p + 1) % phrases.length;
-              window.setTimeout(tick, holdAfterDelete);
-              return;
-            }
-            window.setTimeout(tick, deleteSpeed);
-          }
+      // 3. 音乐播放逻辑
+      const btn = document.getElementById("musicBtn");
+      const audio = document.getElementById("bgmPlayer");
+      const icon = document.getElementById("icon");
+      const note = document.getElementById("note");
+      note.style.display = "none";
+
+      btn.addEventListener("click", () => {
+        if(audio.paused) {
+          audio.play().then(() => {
+            btn.classList.add("playing");
+            icon.textContent = "🎶";
+            note.style.display = "block";
+          }).catch(e => console.log("需用户交互才能播放"));
+        } else {
+          audio.pause();
+          btn.classList.remove("playing");
+          icon.textContent = "📻";
+          note.style.display = "none";
         }
-
-        tick();
-      })();
-
-      // =========================================================
-      // 2) 滚动进入视口淡入动画（IntersectionObserver）
-      // =========================================================
-      (function initReveal() {
-        const els = document.querySelectorAll(".reveal");
-        if (!els.length) return;
-
-        const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
-        if (reduced) {
-          els.forEach((n) => n.classList.add("in"));
-          return;
-        }
-
-        const io = new IntersectionObserver(
-          (entries) => {
-            entries.forEach((e) => {
-              if (e.isIntersecting) {
-                e.target.classList.add("in");
-                io.unobserve(e.target);
-              }
-            });
-          },
-          { threshold: 0.12, rootMargin: "0px 0px -8% 0px" }
-        );
-
-        els.forEach((n, idx) => {
-          // 小小错开：整体更有“层次感”
-          n.style.transitionDelay = `${Math.min(idx * 60, 240)}ms`;
-          io.observe(n);
-        });
-      })();
-
-      // =========================================================
-      // 3) 复制邮箱（小功能：更方便投递/联系）
-      // =========================================================
-      (function initCopyEmail() {
-        const btn = document.getElementById("copyEmailBtn");
-        if (!btn) return;
-        const email = "fuoguzz@gmail.com";
-
-        btn.addEventListener("click", async () => {
-          try {
-            await navigator.clipboard.writeText(email);
-            const old = btn.textContent;
-            btn.textContent = "已复制";
-            btn.disabled = true;
-            window.setTimeout(() => {
-              btn.textContent = old;
-              btn.disabled = false;
-            }, 1000);
-          } catch {
-            // 兼容：如果 Clipboard API 不可用，退化为提示
-            window.prompt("复制邮箱（手动复制）：", email);
-          }
-        });
-      })();
-
-      // =========================================================
-      // 4) 页脚年份
-      // =========================================================
-      (function initYear() {
-        const y = document.getElementById("year");
-        if (y) y.textContent = String(new Date().getFullYear());
-      })();
-
-      // =========================================================
-      // 5) 悬浮音乐播放器（点击后播放，默认不自动播放）
-      // =========================================================
-      (function initMusicPlayer() {
-        const btn = document.getElementById("musicBtn");
-        const audio = document.getElementById("bgmPlayer");
-        if (!btn || !audio) return;
-
-        // 默认 30% 音量，作为背景音
-        audio.volume = 0.3;
-
-        btn.addEventListener("click", async () => {
-          if (audio.paused) {
-            try {
-              await audio.play();
-              btn.classList.add("playing");
-              btn.setAttribute("aria-pressed", "true");
-            } catch {
-              // 用户未授权播放时，保持静止状态
-              btn.classList.remove("playing");
-              btn.setAttribute("aria-pressed", "false");
-            }
-          } else {
-            audio.pause();
-            btn.classList.remove("playing");
-            btn.setAttribute("aria-pressed", "false");
-          }
-        });
-      })();
+      });
     </script>
   </body>
 </html>
