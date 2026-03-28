@@ -185,9 +185,126 @@
         .hero-grid, .lab-grid { grid-template-columns: 1fr; }
         .hero-title { font-size: 32px; }
       }
+    /* =========================================================
+        像素小宠物 (Pixel Sprout Companion)
+      ========================================================= */
+      .pixel-pet-container {
+        position: fixed;
+        left: 30px; bottom: 30px;
+        width: 40px; height: 40px;
+        z-index: 1000;
+        cursor: pointer;
+        transition: transform 0.2s;
+      }
+      .pixel-pet-container:hover { transform: scale(1.2); }
+
+      /* 纯 CSS 绘制像素小树苗 */
+      .pixel-sprout {
+        position: relative;
+        width: 100%; height: 100%;
+        animation: petBreathe 3s infinite ease-in-out;
+      }
+
+      /* 叶子部分 */
+      .pixel-sprout::before {
+        content: '';
+        position: absolute;
+        top: 0; left: 8px;
+        width: 24px; height: 16px;
+        /* 使用 CSS 绘制像素小叶子 (每个方块 4x4) */
+        background-image: 
+          /* 左叶子 */
+          linear-gradient(var(--accent), var(--accent)),
+          linear-gradient(var(--accent), var(--accent)),
+          linear-gradient(var(--accent), var(--accent)),
+          /* 右叶子 */
+          linear-gradient(var(--accent-light), var(--accent-light)),
+          linear-gradient(var(--accent-light), var(--accent-light)),
+          linear-gradient(var(--accent-light), var(--accent-light));
+        background-size: 4px 4px;
+        background-repeat: no-repeat;
+        /* 像素叶子布局 */
+        background-position: 
+          4px 4px, 8px 0px, 12px 4px,  /* 左 */
+          16px 4px, 20px 0px, 24px 4px; /* 右 */
+      }
+
+      /* 种子根部分 */
+      .pixel-sprout::after {
+        content: '';
+        position: absolute;
+        bottom: 8px; left: 16px;
+        width: 8px; height: 8px;
+        background-color: var(--wood);
+        box-shadow: 
+          -4px 0 var(--wood),
+          4px 0 var(--wood),
+          0 -4px var(--wood);
+      }
+
+      /* 像素眼睛 */
+      .pet-eye {
+        position: absolute;
+        top: 20px; left: 14px;
+        width: 4px; height: 4px;
+        background-color: #000;
+        box-shadow: 8px 0 #000;
+        animation: petBlink 5s infinite;
+        z-index: 2;
+      }
+
+      /* 交互提示气泡 */
+      .pet-bubble {
+        position: absolute;
+        bottom: 100%; left: 50%;
+        transform: translateX(-50%) translateY(0);
+        background: white;
+        border: 2px solid var(--wood);
+        padding: 5px 10px;
+        font-size: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+        opacity: 0;
+        transition: 0.3s;
+        pointer-events: none;
+      }
+      .pixel-pet-container:hover .pet-bubble { opacity: 1; transform: translateX(-50%) translateY(-10px); }
+
+      /* =========================================================
+        宠物动画
+      ========================================================= */
+      @keyframes petBreathe {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.05) translateY(-2px); }
+      }
+      @keyframes petBlink {
+        0%, 96%, 100% { transform: scaleY(1); }
+        98% { transform: scaleY(0.1); } /* 快速眨眼 */
+      }
+      /* =========================================================
+        滚动进入视口淡入动画 (移植并适配像素风)
+      ========================================================= */
+      .reveal {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.2, 1);
+        will-change: opacity, transform;
+      }
+      .reveal.in {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      @media (prefers-reduced-motion: reduce) {
+        .reveal { opacity: 1; transform: none; transition: none; }
+      }
     </style>
   </head>
-
+  <div class="pixel-pet-container" id="pixelPet" title="这是我的数字农场伙伴">
+    <div class="pet-bubble">欢迎来玩！</div>
+    <div class="pixel-sprout">
+      <div class="pet-eye"></div>
+    </div>
+  </div>
   <body>
     <div class="leaves-container" id="leaves"></div>
 
@@ -218,12 +335,83 @@
               <a class="btn secondary" href="mailto:fuoguzz@gmail.com">写封信</a>
             </div>
           </div>
-          <div class="cozy-card" style="display: grid; place-items: center; background: #e8f5e9;">
-             <div style="text-align: center; opacity: 0.6;">
-                <div style="font-size: 50px;">🏠</div>
-                <div style="font-size: 12px;">Pixel Home / Coziness</div>
-             </div>
-          </div>
+          <div class="cozy-card" id="farmCard" style="background: #e8f5e9; display: flex; flex-direction: column; gap: 14px; justify-content: center;">
+
+  <!-- ↓ 在这里手动更新你的状态，改完推送就生效 -->
+  <script>
+    const FARM_STATUS = {
+      weather: "sunny",      // sunny | cloudy | rainy | snowy
+      mood: "专注耕田中",     // 一句话心情，随便写
+      season: "spring",      // spring | summer | fall | winter
+    };
+  </script>
+
+  <!-- 季节标题 -->
+  <div id="farmSeason" style="font-size: 12px; color: var(--accent); font-weight: bold; letter-spacing: 1px;"></div>
+
+  <!-- 天气行 -->
+  <div style="display: flex; align-items: center; gap: 10px;">
+    <div id="farmWeatherIcon" style="font-size: 36px;"></div>
+    <div>
+      <div id="farmWeatherText" style="font-weight: bold; font-size: 15px;"></div>
+      <div id="farmDate" style="font-size: 12px; color: var(--muted);"></div>
+    </div>
+  </div>
+
+  <!-- 分割线 -->
+  <div style="border-top: 2px dashed rgba(74,44,20,0.15);"></div>
+
+  <!-- 心情 -->
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="font-size: 20px;">📝</span>
+    <span id="farmMood" style="font-size: 14px; color: var(--text);"></span>
+  </div>
+
+  <!-- 在线时长 -->
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <span style="font-size: 18px;">⏳</span>
+    <span id="farmTime" style="font-size: 13px; color: var(--muted);"></span>
+  </div>
+
+  <script>
+    (function () {
+      const s = FARM_STATUS;
+
+      const WEATHER_MAP = {
+        sunny:  { icon: "☀️", text: "晴天" },
+        cloudy: { icon: "⛅", text: "多云" },
+        rainy:  { icon: "🌧️", text: "下雨" },
+        snowy:  { icon: "❄️", text: "下雪" },
+      };
+      const SEASON_MAP = {
+        spring: "🌱 春　第一季",
+        summer: "☀️ 夏　第二季",
+        fall:   "🍂 秋　第三季",
+        winter: "❄️ 冬　第四季",
+      };
+      const DAYS = ["周日","周一","周二","周三","周四","周五","周六"];
+
+      const w = WEATHER_MAP[s.weather] || WEATHER_MAP.sunny;
+      const now = new Date();
+      const dateStr = `${now.getMonth()+1}月${now.getDate()}日　${DAYS[now.getDay()]}`;
+
+      document.getElementById("farmSeason").textContent = SEASON_MAP[s.season] || "";
+      document.getElementById("farmWeatherIcon").textContent = w.icon;
+      document.getElementById("farmWeatherText").textContent = w.text;
+      document.getElementById("farmDate").textContent = dateStr;
+      document.getElementById("farmMood").textContent = `"${s.mood}"`;
+
+      // 当前时间显示"农场运营 X 小时 X 分"
+      function tick() {
+        const n = new Date();
+        document.getElementById("farmTime").textContent =
+          `今日农场已运营 ${n.getHours()} 小时 ${n.getMinutes()} 分`;
+      }
+      tick();
+      setInterval(tick, 60000);
+    })();
+  </script>
+</div>
         </div>
       </section>
 
@@ -355,6 +543,31 @@
           note.style.display = "none";
         }
       });
+   // 4. 滚动进入视口淡入动画（IntersectionObserver）
+   (function initReveal() {
+        const els = document.querySelectorAll(".reveal");
+        if (!els.length) return;
+        const reduced = window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches;
+        if (reduced) {
+          els.forEach((n) => n.classList.add("in"));
+          return;
+        }
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.classList.add("in");
+                io.unobserve(e.target);
+              }
+            });
+          },
+          { threshold: 0.1, rootMargin: "0px 0px -50px 0px" } 
+        );
+        els.forEach((n, idx) => {
+          n.style.transitionDelay = `${Math.min(idx * 80, 300)}ms`;
+          io.observe(n);
+        });
+      })();
     </script>
   </body>
 </html>
